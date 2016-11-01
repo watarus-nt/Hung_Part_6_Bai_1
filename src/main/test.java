@@ -25,12 +25,18 @@ public class test {
         tmaEmployeeList.add(e2);
         tmaEmployeeList.add(e3);
 
-        jh.convertAllEmployeesToJson(tmaEmployeeList);
+//        jh.convertAllEmployeesToJson(tmaEmployeeList);
+////
+//        jh.writeToFile();
 
+//        JsonArray array = jh.getJsonArray();
+
+
+//        System.out.println(jh.get(e1));
+
+        TMAEmployee e4 = new TMAEmployee();
+        jh.add(e4);
         jh.writeToFile();
 
-//        System.out.println(jh.getMainJsonObject());
-
-//        System.out.println(jh.get("TINH PHU"));
     }
 }
