@@ -49,6 +49,10 @@ public class Global {
     }
 
 
+    public enum Attribute{
+        peopleID, NAME, employeeID, gender, company , phoneNumber
+    }
+
     public static <E extends Enum<E>> boolean isInEnum(String value, Class<E> enumClass) {
         for (E e : enumClass.getEnumConstants()) {
             if (e.name().equals(value)) {
@@ -57,5 +61,7 @@ public class Global {
         }
         return false;
     }
+
+
 
 }
