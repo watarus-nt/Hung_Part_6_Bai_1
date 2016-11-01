@@ -3,17 +3,12 @@ package utilities;
 import model.People;
 import model.TMAEmployee;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.json.*;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +21,18 @@ public class JsonHandlers {
 
     public JsonHandlers(String filePath) {
         this.setFilePath(filePath);
-//        mainJsonObject = getAll();
+        if (!isFileEmpty()){
+            mainJsonObject = getAll();
+        }
         jsonBuilder = Json.createObjectBuilder();
+    }
+
+    public JsonObject getMainJsonObject() {
+        return mainJsonObject;
+    }
+
+    public void setMainJsonObject(JsonObject mainJsonObject) {
+        this.mainJsonObject = mainJsonObject;
     }
 
     public Path getFilePath() {
@@ -42,31 +47,31 @@ public class JsonHandlers {
         return Files.exists(this.filePath);
     }
 
-    public void createFile() {
-        if (!this.isFileExist()) {
-            try {
-                Files.createFile(this.filePath);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public Boolean isFileEmpty(){
+        Boolean result = false;
+        if (isFileExist()){
+            File file = new File(String.valueOf(this.filePath));
+
+            if (file.length() == 0) {
+              result = true;
             }
         }
+        return  result;
     }
 
     public void add(Object object) {
 
     }
 
-    public JsonObject get(People people) {
-        JsonObject jsonObject = null;
+    public List<JsonObject> get(People people) {
+        List<JsonObject> result = new ArrayList<>();
 
-        if (people instanceof TMAEmployee) {
-
-        } else {
-
+        for (String key : this.mainJsonObject.keySet()) {
+            if (key.equals(people.getName())){
+                result.add(this.mainJsonObject.getJsonObject(key));
+            }
         }
-
-
-        return jsonObject;
+        return result;
     }
 
     public JsonObject getAll() {
@@ -110,9 +115,9 @@ public class JsonHandlers {
             convertEmployeeToJson(this.jsonBuilder, employee);
         }
 
-        jsonBuilder.add("Employees", jsonBuilder);
+//        jsonBuilder.add("Employees", jsonBuilder);
         this.mainJsonObject = this.jsonBuilder.build();
-        System.out.println("Employee JSON String\n"+mainJsonObject);
+
 
         //put jsonArray to finalJsonObject to create json object with all employees
 //        mainJsonObject.put("Employees", jsonArray);
@@ -131,6 +136,19 @@ public class JsonHandlers {
         employeeJsonObject.add("team", tmaEmployee.getTeam());
 
         jsonBuilder.add(tmaEmployee.getName(), employeeJsonObject);
+
+    }
+
+    public void writeToFile(){
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(String.valueOf(getFilePath()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        JsonWriter jsonWriter = Json.createWriter(os);
+        jsonWriter.writeObject(this.mainJsonObject);
+        jsonWriter.close();
     }
 
 //        return null;

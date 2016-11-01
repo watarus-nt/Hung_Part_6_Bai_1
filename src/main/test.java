@@ -27,5 +27,10 @@ public class test {
 
         jh.convertAllEmployeesToJson(tmaEmployeeList);
 
+        jh.writeToFile();
+
+//        System.out.println(jh.getMainJsonObject());
+
+//        System.out.println(jh.get("TINH PHU"));
     }
 }
