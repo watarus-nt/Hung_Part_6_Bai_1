@@ -97,7 +97,6 @@ public class JsonHandlers {
                             result = jsonObject;
                         }
                     }
-
                 }
             }
         }
@@ -106,10 +105,6 @@ public class JsonHandlers {
     
     public void add(People people){
 
-        if (people instanceof TMAEmployee){
-            TMAEmployee employee = (TMAEmployee) people;
-            this.mainJsonObject.put(employee.getName(), employee.toJson().build());
-        }
     }
     
     public void remove(People people){

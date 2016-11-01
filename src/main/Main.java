@@ -1,6 +1,5 @@
 package main;
 
-import business.TMAEmployeeManager;
 import utilities.CommonUtils;
 import utilities.JsonHandlers;
 
@@ -20,8 +19,10 @@ public class Main {
         int number = CommonUtils.validateInputNumber(sc);
 
 
-        TMAEmployeeManager tmaEmployeeManager = new TMAEmployeeManager(number);
+//        TMAEmployeeManager tmaEmployeeManager = new TMAEmployeeManager(number+1);
+//
+//        tmaEmployeeManager.writeEmployeesToJson(jh);
 
-        tmaEmployeeManager.writeEmployeesToJson(jh);
+
     }
 }
