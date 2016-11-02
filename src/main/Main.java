@@ -27,12 +27,28 @@ public class Main {
 
         TMAEmployee e1 = new TMAEmployee();
 
+        System.out.println("*****************Employee e1*****************");
+        System.out.println(e1.toJson().build());
+        System.out.println("");
+
+        System.out.println("*****************The second employee in json file*****************");
+        jh.getEmployeeFromJson();
+        TMAEmployee e2 = tmaEmployeeManager.getTmaEmployeeList().get(1);
+        System.out.println(jh.get(e2));
+        System.out.println("");
+
         jh.add(e1);
 
         jh.remove(e1);
 
+        System.out.println("*****************File before modifying*****************");
+        jh.showFileContent();
+        System.out.println("");
 
+        jh.modify(tmaEmployeeManager.getTmaEmployeeList().get(1), e1);
 
+        System.out.println("*****************File after modifying*****************");
+        jh.showFileContent();
 
     }
 }

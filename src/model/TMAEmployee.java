@@ -96,6 +96,7 @@ public class TMAEmployee extends People {
         empBuilder.add("peopleID", getPeopleID());
         empBuilder.add("employeeID", getTmaEmployeeID());
         empBuilder.add("relativeID", getRelativeID());
+        empBuilder.add("name", getName());
         empBuilder.add("sex", getGender());
         empBuilder.add("team", getTeam());
         empBuilder.add("phone", getPhoneNumber());

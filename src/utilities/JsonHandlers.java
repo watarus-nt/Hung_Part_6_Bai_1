@@ -24,9 +24,6 @@ public class JsonHandlers {
     public JsonHandlers(String filePath) {
         this.setFilePath(filePath);
         createFile();
-        if (!isFileEmpty()){
-            getEmployeeFromJson();
-        }
         objectBuilder = Json.createObjectBuilder();
     }
 
@@ -119,21 +116,14 @@ public class JsonHandlers {
         }
     }
     
-    public void modify(People peole){
-        
-    }
+    public void modify(People oldPeole, People newPeople){
+        if ((oldPeole instanceof TMAEmployee) && (newPeople instanceof  TMAEmployee)){
+            TMAEmployee oldEmployee = (TMAEmployee) oldPeole;
+            TMAEmployee newEmployee = (TMAEmployee) newPeople;
 
-    public Boolean isSamePerson(People people, JsonObject jsonObject){
-        Boolean result = false;
-
-        if (people instanceof TMAEmployee){
-            TMAEmployee employee = (TMAEmployee) people;
-            if (employee.getTmaEmployeeID() == jsonObject.getInt("employeeID")){
-                result = true;
-            }
+            modifyInFile(oldEmployee.toJson().build().toString(),
+                         newEmployee.toJson().build().toString());
         }
-
-        return result;
     }
 
 
@@ -202,6 +192,18 @@ public class JsonHandlers {
     }
 
 
+    public Boolean isSamePerson(People people, JsonObject jsonObject){
+        Boolean result = false;
+
+        if (people instanceof TMAEmployee){
+            TMAEmployee employee = (TMAEmployee) people;
+            if (employee.getTmaEmployeeID() == jsonObject.getInt("employeeID")){
+                result = true;
+            }
+        }
+
+        return result;
+    }
 
     public void writeToFile(){
         OutputStream os = null;
@@ -216,7 +218,7 @@ public class JsonHandlers {
         jsonWriter.close();
     }
 
-    public void addToFile(String addString){
+    private void addToFile(String addString){
         File newJsonFile = new File(String.valueOf(getFilePath()));
         String search = "]}";  // <- changed to work with String.replaceAll()
 
@@ -246,7 +248,7 @@ public class JsonHandlers {
 
     }
 
-    public void removeFromFile(String removeString){
+    private void removeFromFile(String removeString){
         File newJsonFile = new File(String.valueOf(getFilePath()));
 
         //file reading
@@ -262,7 +264,13 @@ public class JsonHandlers {
                 if (s.contains(removeString)){
                     String subString1 = s.substring(0,s.indexOf(removeString));
                     String subString2 = s.substring(s.indexOf(removeString),s.length()).replace(removeString,"");
-                    newJsonString = subString1 + subString2;
+                    if (subString1.equals("{[")) {
+                        newJsonString = subString1 + subString2.substring(1, subString2.length());
+                    } else if (subString2.equals("]}")) {
+                        newJsonString = subString1.substring(0,subString1.length()-1) + subString2;
+                    } else {
+                        newJsonString = subString1 + subString2.substring(1, subString2.length());
+                    }
                 }
 
             }
@@ -270,6 +278,58 @@ public class JsonHandlers {
             FileWriter fw = new FileWriter(newJsonFile);
             fw.write(newJsonString);
             fw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void modifyInFile(String stringToReplace, String newString) {
+        File newJsonFile = new File(String.valueOf(getFilePath()));
+
+        //file reading
+        FileReader fr = null;
+        try {
+            fr = new FileReader(newJsonFile);
+            String s;
+
+            BufferedReader br = new BufferedReader(fr);
+
+            String  newJsonString = "";
+            while ((s = br.readLine()) != null) {
+                if (s.contains(stringToReplace)){
+                    newJsonString = s.replace(stringToReplace, newString);
+                }
+
+            }
+
+            FileWriter fw = new FileWriter(newJsonFile);
+            fw.write(newJsonString);
+            fw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showFileContent(){
+        File newJsonFile = new File(String.valueOf(getFilePath()));
+
+        //file reading
+        FileReader fr = null;
+        try {
+            fr = new FileReader(newJsonFile);
+            String s;
+
+            BufferedReader br = new BufferedReader(fr);
+
+            String  newJsonString = "";
+            while ((s = br.readLine()) != null) {
+                System.out.println(s);
+
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
