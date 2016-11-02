@@ -42,7 +42,7 @@ public class TMAEmployeeManager {
     public TMAEmployeeManager(int number){
         this.tmaEmployeeList = new ArrayList<TMAEmployee>();
         clean();
-        RandomPhoneNumberList randomPhoneNumbers = new RandomPhoneNumberList(number);
+        RandomPhoneNumberList randomPhoneNumbers = new RandomPhoneNumberList(number+5);
         RandomUtils randomUtils = new RandomUtils();
 
         for (int i=0;i<number;i++){

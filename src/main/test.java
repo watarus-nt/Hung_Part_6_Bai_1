@@ -5,6 +5,7 @@ import utilities.JsonHandlers;
 import utilities.RandomPhoneNumberList;
 import utilities.RandomUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,12 @@ public class test {
 //        System.out.println(jh.get(e1));
 
         TMAEmployee e4 = new TMAEmployee();
-        jh.add(e4);
-        jh.writeToFile();
+        try {
+            jh.add(e4);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
