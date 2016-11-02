@@ -5,7 +5,7 @@ import common.Global;
 import utilities.RandomPhoneNumberList;
 import utilities.RandomUtils;
 
-import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.util.Random;
 
 /**
@@ -174,7 +174,7 @@ public abstract class People {
                 + "- Gender: " + getGender() + " - Description: " + getDescription();
     }
 
-    public abstract JsonObject toJson();
+    public abstract JsonObjectBuilder toJson();
 
 
 }

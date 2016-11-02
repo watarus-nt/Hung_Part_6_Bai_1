@@ -3,9 +3,7 @@ package model;
 
 import common.Global;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import java.util.Random;
 
 /**
@@ -92,17 +90,26 @@ public class TMAEmployee extends People {
     }
 
     @Override
-    public JsonObject toJson() {
+    public JsonObjectBuilder toJson() {
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         JsonObjectBuilder empBuilder = Json.createObjectBuilder();
         empBuilder.add("peopleID", getPeopleID());
         empBuilder.add("employeeID", getTmaEmployeeID());
         empBuilder.add("relativeID", getRelativeID());
+        empBuilder.add("name", getName());
         empBuilder.add("sex", getGender());
         empBuilder.add("team", getTeam());
         empBuilder.add("phone", getPhoneNumber());
         empBuilder.add("description", getDescription());
 
-        return empBuilder.build();
+        arrayBuilder.add(empBuilder);
+
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+
+
+        objectBuilder.add(getName(), arrayBuilder);
+
+        return objectBuilder;
     }
 
 

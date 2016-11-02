@@ -5,6 +5,7 @@ import utilities.JsonHandlers;
 import utilities.RandomPhoneNumberList;
 import utilities.RandomUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +26,22 @@ public class test {
         tmaEmployeeList.add(e2);
         tmaEmployeeList.add(e3);
 
-        jh.convertAllEmployeesToJson(tmaEmployeeList);
+//        jh.convertAllEmployeesToJson(tmaEmployeeList);
+////
+//        jh.writeToFile();
 
-        jh.writeToFile();
+//        JsonArray array = jh.getJsonArray();
 
-//        System.out.println(jh.getMainJsonObject());
 
-//        System.out.println(jh.get("TINH PHU"));
+//        System.out.println(jh.get(e1));
+
+        TMAEmployee e4 = new TMAEmployee();
+        try {
+            jh.add(e4);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
